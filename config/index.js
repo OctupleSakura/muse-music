@@ -10,7 +10,30 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {},
+    proxyTable: {
+      '/api':{
+         target:'https://c.y.qq.com/musichall/fcgi-bin/fcg_yqqhomepagerecommend.fcg',
+         changeOrigin:true,
+         bypass:function(req,res,proxyOptions){
+           req.headers.referer="https://c.y.qq.com";
+           req.headers.host="c.y.qq.com";
+         },
+         pathRewrite: {  
+          '^/api': ''  
+         }
+      },
+      '/search':{
+        target:'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp',
+        changeOrigin:true,
+        bypass:function(req,res,proxyOptions){
+         req.headers.referer="https://c.y.qq.com";
+         req.headers.host="c.y.qq.com";
+         },
+        pathRewrite: {  
+         '^/search': ''  
+        },
+     }
+    },
 
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
