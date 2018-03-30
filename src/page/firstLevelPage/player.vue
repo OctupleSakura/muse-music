@@ -64,14 +64,14 @@
              sec = "0" + sec;
           }
           return min + ":" + sec;
-        },
-        cuurentTime(){
-          return this.$store.state.currentDuration;
         }
      },
      computed:{
         playState(){
           return this.$store.state.currentPlay;
+        },
+        cuurentTime(){
+          return this.$store.state.currentDuration;
         }
      },
      watch:{
@@ -84,7 +84,7 @@
            }
        },
        cuurentTime(){
-          
+          this.progress = (this.$store.state.currentDuration / this.$store.state.duration)*100;
        }
      },
      mounted(){

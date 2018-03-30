@@ -51,7 +51,11 @@ export default {
         }
     },
     songUrl(){
-      this.setDuration(this.$refs.audio.duration);//对音乐的url进行监听，当url改变时，随之设置音乐的时间
+      this.$nextTick(()=>{
+        this.$refs.audio.ondurationchange = ()=>{
+          this.setDuration(this.$refs.audio.duration);//对音乐的url进行监听，当url改变时，随之设置音乐的时间
+        }
+      })
     }
   },
   mounted(){
