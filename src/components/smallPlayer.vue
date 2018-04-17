@@ -1,13 +1,46 @@
 <template>
     <div class="smallPlayer"  label="Primary" >
-       <div>
-         <img src="" alt="">
-       </div>
+      <div>
+         <img :src="albumUrl" >
+         <ul class="songInformation">
+           <li>{{songName}}</li>
+           <li>{{songerName}}</li>
+         </ul>
+      </div>
+      <div>
+        <mu-icon :value="currentPlay?'pause':'play_arrow'" :size="32" @click="play"/>
+        <mu-icon value="playlist_add_check" :size="32"/>
+      </div>
     </div>
 </template>
 <script>
+  import { mapState } from 'vuex';
+   import {mapMutations} from "vuex";
   export default {
-    name:'smallPlayer'
+    name:'smallPlayer',
+    data(){
+      return{
+
+      }
+    },
+    methods:{
+      ...mapMutations([
+         'playControl'
+       ]),
+      play(){
+         if(!this.songUrl){return}
+         this.currentPlay?this.playControl(false):this.playControl(true);
+      }
+    },
+    computed:{
+      ...mapState([
+        'albumUrl',
+        'songName',
+        'songerName',
+        'currentPlay',
+        'songUrl'
+      ])
+    }
   }
 </script>
 <style lang="less" scoped> 
@@ -17,6 +50,30 @@
      height:45px;
      box-shadow:0px 9px 36px #888888;
      background:#fff;
+     display: flex;
+     justify-content:space-between;
+     align-items:center;
+     box-sizing: border-box;
+     padding-right:15px;
+     padding-left:15px;
+     border-top:1px solid #dedede;
+     img{
+       width:33px;
+       height:33px;
+       background:#888888;
+     }
+     >div{
+       display: flex;
+       align-items: center;
+       i{
+         margin-left:15px;
+       }
+     }
+   }
+   .songInformation{
+     margin-left:10px;
+     text-align:left;
+     font-size:12px;
    }
 </style>
 
