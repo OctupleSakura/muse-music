@@ -8,7 +8,8 @@
 </template>
 
 <script>
-import {mapMutations} from "vuex";
+import { mapMutations } from "vuex";
+import { mapState } from "vuex"
 export default {
   name: 'App',
   data(){
@@ -24,22 +25,22 @@ export default {
     ]),
     currentTime(){
       //回调事件  用于在vuex中更新当前音乐时间
-      const that = this;
-      if(that.$refs.audio.currentTime>=that.$refs.audio.duration){
-         that.playControl(false);
+      if(this.$refs.audio.currentTime>=this.$refs.audio.duration){
+         this.playControl(false);
+         return;
       }
-      that.setCurrentDuration(that.$refs.audio.currentTime);
+      if(this.$store.state.changeState!=1){
+        this.setCurrentDuration(this.$refs.audio.currentTime);  
+      }
     }
   },
   computed:{
-    songUrl(){
-      return this.$store.state.songUrl;
-      //返回音乐的url
-    },
-    currentPlay(){
-      return this.$store.state.currentPlay;
-      //返回音乐当前的播放状态
-    }
+    ...mapState([
+       'songUrl',
+       'currentPlay',
+       'changeState',
+       'currentDuration'
+    ]),
   },
   watch:{
     currentPlay(val,newval){//监听currentPlay,当它改变时同时改变音乐状态
@@ -50,12 +51,16 @@ export default {
           audio.pause();// 暂停
         }
     },
-    songUrl(){
-      this.$nextTick(()=>{
-        this.$refs.audio.ondurationchange = ()=>{
-          this.setDuration(this.$refs.audio.duration);//对音乐的url进行监听，当url改变时，随之设置音乐的时间
-        }
-      })
+    changeState(val,newval){//对手动切换状态进行监听,如果是从1变为0的话则改变音乐时间
+      if(newval==1&&val==0){
+        this.$refs.audio.currentTime = this.currentDuration;
+      }
+    },
+    async songUrl(){
+      await this.$nextTick()
+      this.$refs.audio.ondurationchange = ()=>{
+        this.setDuration(this.$refs.audio.duration);//对音乐的url进行监听，当url改变时，随之设置音乐的时间
+      }
     }
   },
   mounted(){

@@ -14,7 +14,8 @@ export default new Vuex.Store({
     songUrl:"",//当前音乐url
     albumUrl:"",//专辑图片url
     songName:"",//音乐名
-    songerName:""//歌手名
+    songerName:"",//歌手名
+    changeState:0//如果为1的话表示为手动改变音乐情况
   },
   mutations: {
     setSongId (state,id) {
@@ -38,6 +39,9 @@ export default new Vuex.Store({
     },
     setCurrentDuration(state,time){
       state.currentDuration = time;
+    },
+    setChangeState(state,number){
+      state.changeState = number;
     }
   }
 })

@@ -57,25 +57,16 @@ export default {
       }
   },
   methods: {},
-  mounted() {
+  async mounted() {
+    const apiUrl = "/api?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&_=1521092161716";
+    const res = await axios.get(apiUrl);
+    let data = res.data.data;
+    this.slider = data.slider;
+    this.songList = data.songList;
+    this.bannerLength = data.slider.length;
+    console.log(data);
+    await this.$nextTick();
     this.bannerWidth = document.body.clientWidth;
-    axios.get("/api?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&_=1521092161716").then(
-        function(res) {
-          let data = res.data.data;
-          this.slider = data.slider;
-          this.songList = data.songList;
-          this.bannerLength = data.slider.length;
-          console.log(data);
-        }.bind(this)
-      ).catch(function(error) {
-        console.log(error);
-      }).then(function(res) {
-          this.$nextTick(function() {
-
-            }.bind(this)
-          );
-        }.bind(this)
-      );
   }
 };
 </script>

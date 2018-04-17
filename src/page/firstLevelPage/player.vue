@@ -2,15 +2,22 @@
    <transition name="up">
      <div class="player" >
        <div class="titleHeader">
-         <p>{{this.$store.state.songName}}</p>
-         <p>{{this.$store.state.songerName}}</p>
+         <div>
+           <router-link to="/" tag="div" class="back">
+              <i class="mdui-icon material-icons">&#xe5c4;</i>
+           </router-link>
+           <div>
+             <p>{{this.$store.state.songName}}</p>
+             <p>{{this.$store.state.songerName}}</p>
+           </div>
+           </div>
        </div>
        <div class="albumImg" ref="albumImg"></div>
        <div class="bg" ref="bg"></div>
        <div class="control">
           <div class="pargressContent">
             <div class="currentTime time">{{TimeLength(0)}}</div>
-            <mu-slider v-model="progress"></mu-slider> 
+            <mu-slider v-model="progress" @dragStart="changeStart" @dragStop="changeEnd"></mu-slider> 
             <div class="timeLength time">{{TimeLength(1)}}</div>
           </div>
           <div class="controlContent">
@@ -25,6 +32,7 @@
 <script>
   import axios from "axios";
   import {mapMutations} from "vuex";
+  import { mapState } from 'vuex'
    export default {
      name:'player',
      data(){
@@ -38,20 +46,28 @@
          'setSongId',
          'setAlbumUrl',
          'playControl',
-         'setCurrentDuration'
+         'setCurrentDuration',
+         'setChangeState'
        ]),
        play(){
-          if(this.$store.state.currentPlay){
+          if(this.currentPlay){
             this.playControl(false);
           }else{
             this.playControl(true);
           }
        },
-       TimeLength(Time){
+       changeStart(){//拖拽开始函数
+          this.setChangeState(1)
+       },
+       changeEnd(){//拖拽结束函数
+          this.setCurrentDuration(this.duration*this.progress/100);
+          this.setChangeState(0);
+       },
+       TimeLength(Time){//时间计算函数
          if(Time==1){
-           Time = this.$store.state.duration;
+           Time = this.duration;
          }else{
-           Time = this.$store.state.currentDuration;
+           Time = this.currentDuration;
          }
           let min = parseInt(Time/60)+"";
           let sec = parseInt(Time%60)+"";
@@ -67,15 +83,15 @@
         }
      },
      computed:{
-        playState(){
-          return this.$store.state.currentPlay;
-        },
-        cuurentTime(){
-          return this.$store.state.currentDuration;
-        }
+       ...mapState([
+          'currentPlay',
+          'currentDuration',
+          'changeState',
+          'duration'
+       ])
      },
      watch:{
-       playState(val,newval){
+       currentPlay(val,newval){
            if(newval){
               this.playIcon = 'play_circle_outline'
            }
@@ -83,9 +99,12 @@
              this.playIcon = 'pause_circle_outline'
            }
        },
-       cuurentTime(){
-          this.progress = (this.$store.state.currentDuration / this.$store.state.duration)*100;
-       }
+       currentDuration(){
+         if(this.changeState!=1){
+              this.progress = (this.currentDuration / this.duration)*100;
+         }
+       },
+
      },
      mounted(){
         this.setSongId(this.$route.params.songmid);
@@ -120,15 +139,26 @@
       z-index: 3;
       position: absolute;
       padding-top:20px;
-      p{
-        color:#fff;
-        text-align:left;
-        width:70%;
-        margin:0 auto;
-      }
-      p:nth-child(2){
-        font-size:12px;
-        color:#dbdbdb;
+      >div{
+        width:100%;
+        padding:0 50px;
+        position:relative;
+        .back{
+          position:absolute;
+          left:1rem;
+          top:0.5rem;
+          i{
+            color:#fff;
+          }
+        }
+         p{
+           color:#fff;
+           text-align:left;
+         }
+         p:nth-child(2){
+           font-size:12px;
+           color:#dbdbdb;
+         }
       }
     }
     .albumImg{

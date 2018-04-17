@@ -1,7 +1,18 @@
 <template>
   <div class="songSearch" :style="{width:currentWidth+'px'}">
     <div class="songSearch_inputContent">
-         <mu-text-field ref="songInput" name="searchSong" hintText="搜索歌曲" inputClass="inputClass" icon="search" iconClass="searchicon" underlineClass="lineClass" hintTextClass="hintTextClass" underlineFocusClass="linefocusClass"  @keyup.enter="search" v-model="searchName" fullWidth/>
+         <mu-text-field ref="songInput" 
+                        name="searchSong" 
+                        hintText="搜索歌曲" 
+                        inputClass="inputClass" 
+                        icon="search" 
+                        iconClass="searchicon" 
+                        underlineClass="lineClass" 
+                        hintTextClass="hintTextClass" 
+                        underlineFocusClass="linefocusClass"  
+                        v-model="searchName" 
+                        fullWidth
+        />
     </div>
     <div class="songListContent" ref="songListContent">
       <ul>
@@ -39,20 +50,18 @@
     mounted(){
       var that = this;
       this.currentWidth = document.body.clientWidth;
-      this.$refs.songInput.$el.children[1].children[1].onkeydown = function(){
+      this.$refs.songInput.$el.children[1].children[1].onkeydown = ()=>{
         if(event.keyCode =="13"){
-          that.selecting = true;
-          that.search(0);
+          this.search(0);
         }
       }
-      this.$refs.songListContent.addEventListener('scroll', function(){
+      this.$refs.songListContent.addEventListener('scroll', function lazyload(){
          let scrollTop = this.scrollTop;
          let scrollHeight = this.scrollHeight;
          let clientHeight = this.clientHeight;
          if(scrollHeight == scrollTop + clientHeight){
            if(that.songLength++)
               that.songLength++;
-              that.selecting = true;
               that.search(1);
          }
       })
@@ -62,25 +71,27 @@
          'setSongName',
          'setSongerName'
        ]),
-      search(method){
-        axios.get(`/search?g_tk=289671492&uin=2211503711&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&w=`+this.searchName+`&zhidaqu=1&catZhida=1&t=0&flag=1&ie=utf-8&sem=1&aggr=0&perpage=20&n=`+30+`&p=`+this.songLength+`&remoteplace=txt.mqq.all&_=1521699185623`).then(
-          function(res){
-            let list = res.data.data.song.list;
-            if(method==1){
-                if(list.length==0){
-                  this.selecting = false
-                  this.all=true;
-                  return;
-                  };
-                this.songList.push.apply(this.songList,list);
-                return;
-            }
-            this.$refs.songListContent.scrollTop=0;
-            this.songLength = 1;
-            this.songList = [];
-            this.songList = list;
-            this.selecting = false
-        }.bind(this))
+      async search(method){
+        this.selecting = true;
+        const apiUrl1 = `/search?g_tk=289671492&uin=2211503711&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&w=`;
+        const apiUrl2 = `&zhidaqu=1&catZhida=1&t=0&flag=1&ie=utf-8&sem=1&aggr=0&perpage=20&n=`
+        const apiUrl3 = `&remoteplace=txt.mqq.all&_=1521699185623`
+        const res = await axios.get(apiUrl1+this.searchName+apiUrl2+30+`&p=`+this.songLength+apiUrl3);
+        let list = res.data.data.song.list;
+        if(method==1){
+            if(list.length==0){
+              this.selecting = false
+              this.all=true;
+              return;
+              };
+            this.songList.push.apply(this.songList,list);
+            return;
+        }
+        this.$refs.songListContent.scrollTop=0;
+        this.songLength = 1;
+        this.songList = [];
+        this.songList = list;
+        this.selecting = false
       },
       updateBefore(songname,songername){
         this.setSongName(songname);
