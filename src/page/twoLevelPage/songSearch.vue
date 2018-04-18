@@ -35,6 +35,7 @@
 <script>
   import axios from "axios";
   import {mapMutations} from "vuex";
+  import api from '../../api/api';
   export default {
     name:'songSearch',
     data(){
@@ -73,10 +74,9 @@
        ]),
       async search(method){
         this.selecting = true;
-        const apiUrl1 = `/search?g_tk=289671492&uin=2211503711&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&w=`;
-        const apiUrl2 = `&zhidaqu=1&catZhida=1&t=0&flag=1&ie=utf-8&sem=1&aggr=0&perpage=20&n=`
-        const apiUrl3 = `&remoteplace=txt.mqq.all&_=1521699185623`
-        const res = await axios.get(apiUrl1+this.searchName+apiUrl2+30+`&p=`+this.songLength+apiUrl3);
+        // const apiUrl = `/search?g_tk=289671492&uin=2211503711&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&w=`+this.searchName+`&zhidaqu=1&catZhida=1&t=0&flag=1&ie=utf-8&sem=1&aggr=0&perpage=20&n=`+30+`&p=`+this.songLength+`&remoteplace=txt.mqq.all&_=1521699185623`;
+        // const res = await axios.get(apiUrl);
+        const res = await api.search(this.searchName,this.songLength);
         let list = res.data.data.song.list;
         if(method==1){
             if(list.length==0){
@@ -102,11 +102,11 @@
 </script>
 <style lang="less">
 @import '../../assets/public';
-ul,li{
-  padding:0;
-  margin:0;
-  list-style: none;
-}
+  ul,li{
+   padding:0;
+   margin:0;
+   list-style: none;
+ }
 .searchicon{
   left:14px;
   top:15px;

@@ -32,7 +32,8 @@
 <script>
   import axios from "axios";
   import {mapMutations} from "vuex";
-  import { mapState } from 'vuex'
+  import { mapState } from 'vuex';
+  import api from '../../api/api';
    export default {
      name:'player',
      data(){
@@ -49,6 +50,39 @@
          'setCurrentDuration',
          'setChangeState'
        ]),
+       async init(){
+          const guid = this.getGuid()
+          const vkey = await api.vkey(this.$route.params.songmid,guid);
+          this.setSongId({songmid:this.$route.params.songmid,guid:guid,vkey:vkey});
+          this.setAlbumUrl(this.$route.params.albummid);
+          this.playControl(false);
+          this.$refs.bg.style.background = 'url('+this.$store.state.albumUrl+')';
+          this.$refs.albumImg.style.background = 'url('+this.$store.state.albumUrl+')';
+          this.$refs.bg.style.backgroundPosition = 'center top';
+          this.$refs.bg.style.backgroundSize = 'cover';
+       },
+       getGuid(){
+          var t = (new Date).getUTCMilliseconds();
+          if(document.cookie.indexOf("pgv_pvid")!=-1){
+            return this.getCookie("pgv_pvid");
+          }
+          document.cookie ="pgv_pvid=" + guid + "; Expires=Sun, 18 Jan 2038 00:00:00 GMT;PATH=/;";
+          return _guid = Math.round(2147483647 * Math.random()) * t % 1e10;
+       },
+       getCookie(c_name){
+           if (document.cookie.length>0)
+             {
+             let c_start=document.cookie.indexOf(c_name + "=")
+             if (c_start!=-1)
+               { 
+               c_start=c_start + c_name.length+1 
+               let c_end=document.cookie.indexOf(";",c_start)
+               if (c_end==-1) c_end=document.cookie.length
+               return unescape(document.cookie.substring(c_start,c_end))
+               } 
+             }
+           return ""
+       },
        play(){
           if(this.currentPlay){
             this.playControl(false);
@@ -107,13 +141,9 @@
 
      },
      mounted(){
-        this.setSongId(this.$route.params.songmid);
-        this.setAlbumUrl(this.$route.params.albummid);
-        this.playControl(false);
-        this.$refs.bg.style.background = 'url('+this.$store.state.albumUrl+')';
-        this.$refs.albumImg.style.background = 'url('+this.$store.state.albumUrl+')';
-        this.$refs.bg.style.backgroundPosition = 'center top';
-        this.$refs.bg.style.backgroundSize = 'cover';
+        if(this.$route.params.songmid){
+           this.init()
+        }
      }
    }
 </script>

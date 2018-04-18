@@ -1,7 +1,9 @@
 <template>
   <div id="app">
     <transition name="up" in-out>
-      <router-view class="child-view"/>
+      <keep-alive include="Index">
+        <router-view class="child-view"/>
+      </keep-alive>
     </transition>
     <audio :src="songUrl" ref="audio"></audio>
   </div>

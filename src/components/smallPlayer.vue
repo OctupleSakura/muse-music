@@ -1,7 +1,8 @@
 <template>
     <div class="smallPlayer"  label="Primary" >
       <div>
-         <img :src="albumUrl" >
+         <router-link :to="{name:'player'}" tag="img" :src="albumUrl"></router-link>
+         <!-- <img :src="albumUrl" > -->
          <ul class="songInformation">
            <li>{{songName}}</li>
            <li>{{songerName}}</li>
@@ -55,12 +56,13 @@
      align-items:center;
      box-sizing: border-box;
      padding-right:15px;
-     padding-left:15px;
+     padding-left:10px;
      border-top:1px solid #dedede;
      img{
        width:33px;
        height:33px;
        background:#888888;
+       border:1px solid #eeeeee;
      }
      >div{
        display: flex;
