@@ -16,7 +16,7 @@
     </div>
     <div class="songListContent" ref="songListContent">
       <ul>
-        <router-link v-for="(list,index) in songList" :key="index" tag="li" :to="{name:'player',params:{songmid:list.songmid,albummid:list.albummid}}" @click.native="updateBefore(list.songname,list.singer[0].name)">
+        <router-link v-for="(list,index) in songList" :key="index" tag="li" :to="{name:'player',params:{songmid:list.songmid,albummid:list.albummid,init:1}}" @click.native="updateBefore(list.songname,list.singer[0].name)">
            <mu-list-item :title="list.songname" describeTextClass="describeClass" titleClass="songtitleClass" :describeText="list.singer[0].name">
              <mu-avatar icon="face" slot="leftAvatar"/>
              <span slot="describe">

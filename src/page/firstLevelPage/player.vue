@@ -140,8 +140,9 @@
        },
 
      },
-     mounted(){
-        if(this.$route.params.songmid){
+     activated(){
+        if(this.$route.params.init==1){
+          debugger
            this.init()
         }
      }

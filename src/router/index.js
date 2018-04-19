@@ -13,7 +13,7 @@ export default new Router({
       component: Index
     },
     {
-      path:'/player/:songmid/:albummid',
+      path:'/player/:songmid/:albummid/:init',
       name:'player',
       component:player
     }

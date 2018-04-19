@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <transition name="up" in-out>
-      <keep-alive include="Index">
+      <keep-alive >
         <router-view class="child-view"/>
       </keep-alive>
     </transition>

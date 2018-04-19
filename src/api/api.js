@@ -5,6 +5,7 @@ const api = {
     let format = 'jsonp';
     const apiUrl = '/vkey?g_tk=1278911659&hostUin=0&format='+format+'&callback=callback&inCharset=utf8&outCharset=utf-8&notice=0&platform=yqq&needNewCode=0&cid=205361747&uin=0&songmid='+songmid+'&filename=C400'+songmid+'.m4a&guid='+guid;
     let res = await axios.get(apiUrl);
+    console.log(res);
     return JSON.parse(res.data.split("(")[1].split(")")[0]).data.items[0].vkey;
   },
   search:async(key,length)=>{
