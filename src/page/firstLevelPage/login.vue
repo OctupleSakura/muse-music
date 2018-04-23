@@ -7,7 +7,6 @@
          <div class="login_title">用户登录</div>
          <div class="login_input_content">
            <mu-text-field hintText="请输入用户名" 
-                          type="number" 
                           icon="account_circle" 
                           iconClass="loginIcon" 
                           underlineClass="loginLine"
@@ -15,7 +14,6 @@
                           hintTextClass="loginHintText"
                           fullWidth/><br/>
            <mu-text-field hintText="请输入密码" 
-                          type="number" 
                           icon="settings"
                           iconClass="loginIcon"
                           underlineClass="loginLine"
