@@ -142,7 +142,6 @@
      },
      activated(){
         if(this.$route.params.init==1){
-          debugger
            this.init()
         }
      }
