@@ -1,7 +1,7 @@
 <template>
     <div class="smallPlayer"  label="Primary" >
       <div>
-         <router-link :to="{name:'player',params:{init:0}}" tag="img" :src="albumUrl"></router-link>
+         <router-link :to="{name:'player',params:{songmid:this.songmid,albummid:this.albumUrl,init:0}}" tag="img" :src="albumUrl"></router-link>
          <!-- <img :src="albumUrl" > -->
          <ul class="songInformation">
            <li>{{songName}}</li>
@@ -38,6 +38,7 @@
         'albumUrl',
         'songName',
         'songerName',
+        'songmid',
         'currentPlay',
         'songUrl'
       ])

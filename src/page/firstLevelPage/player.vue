@@ -52,7 +52,7 @@
        ]),
        async init(){
           const guid = this.getGuid()
-          const vkey = await api.vkey(this.$route.params.songmid,guid);
+          const vkey = await api.music.vkey(this.$route.params.songmid,guid);
           this.setSongId({songmid:this.$route.params.songmid,guid:guid,vkey:vkey});
           this.setAlbumUrl(this.$route.params.albummid);
           this.playControl(false);
