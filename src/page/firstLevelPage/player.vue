@@ -48,14 +48,18 @@
          'setAlbumUrl',
          'playControl',
          'setCurrentDuration',
-         'setChangeState'
+         'setChangeState',
+         'setSongMid'
        ]),
        async init(){
           const guid = this.getGuid()
-          const vkey = await api.music.vkey(this.$route.params.songmid,guid);
-          this.setSongId({songmid:this.$route.params.songmid,guid:guid,vkey:vkey});
+          const music = await api.music.vkey(this.$route.params.songmid,guid);
+          const vkey = music.data.items[0].vkey;
+          this.setSongMid({songmid:this.$route.params.songmid,guid:guid,vkey:vkey});
           this.setAlbumUrl(this.$route.params.albummid);
           this.playControl(false);
+          this.setSongId(this.$route.params.songid);
+          const res = await api.music.lyric(this,this.$route.params.songid);
           this.$refs.bg.style.background = 'url('+this.$store.state.albumUrl+')';
           this.$refs.albumImg.style.background = 'url('+this.$store.state.albumUrl+')';
           this.$refs.bg.style.backgroundPosition = 'center top';
@@ -66,8 +70,9 @@
           if(document.cookie.indexOf("pgv_pvid")!=-1){
             return this.getCookie("pgv_pvid");
           }
-          document.cookie ="pgv_pvid=" + guid + "; Expires=Sun, 18 Jan 2038 00:00:00 GMT;PATH=/;";
-          return _guid = Math.round(2147483647 * Math.random()) * t % 1e10;
+          let  _guid = Math.round(2147483647 * Math.random()) * t % 1e10;
+          document.cookie ="pgv_pvid=" + _guid + "; Expires=Sun, 18 Jan 2038 00:00:00 GMT;PATH=/;";
+          return _guid
        },
        getCookie(c_name){
            if (document.cookie.length>0)
@@ -121,7 +126,8 @@
           'currentPlay',
           'currentDuration',
           'changeState',
-          'duration'
+          'duration',
+          'songid'
        ])
      },
      watch:{
@@ -140,7 +146,7 @@
        },
 
      },
-     activated(){
+     async activated(){
         if(this.$route.params.init==1){
            this.init()
         }

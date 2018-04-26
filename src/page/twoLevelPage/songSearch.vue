@@ -16,7 +16,7 @@
     </div>
     <div class="songListContent" ref="songListContent">
       <ul>
-        <router-link v-for="(list,index) in songList" :key="index" tag="li" :to="{name:'player',params:{songmid:list.songmid,albummid:list.albummid,init:1}}" @click.native="updateBefore(list.songname,list.singer[0].name)">
+        <router-link v-for="(list,index) in songList" :key="index" tag="li" :to="{name:'player',params:{songmid:list.songmid,albummid:list.albummid,songid:list.songid,init:1}}" @click.native="updateBefore(list.songname,list.singer[0].name)">
            <mu-list-item :title="list.songname" describeTextClass="describeClass" titleClass="songtitleClass" :describeText="list.singer[0].name">
              <mu-avatar icon="face" slot="leftAvatar"/>
              <span slot="describe">
@@ -70,12 +70,11 @@
     methods:{
        ...mapMutations([
          'setSongName',
-         'setSongerName'
+         'setSongerName',
+         'setSongId'
        ]),
       async search(method){
         this.selecting = true;
-        // const apiUrl = `/search?g_tk=289671492&uin=2211503711&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&w=`+this.searchName+`&zhidaqu=1&catZhida=1&t=0&flag=1&ie=utf-8&sem=1&aggr=0&perpage=20&n=`+30+`&p=`+this.songLength+`&remoteplace=txt.mqq.all&_=1521699185623`;
-        // const res = await axios.get(apiUrl);
         const res = await api.music.search(this.searchName,this.songLength);
         let list = res.data.data.song.list;
         if(method==1){

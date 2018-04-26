@@ -6,6 +6,7 @@ import router from './router'
 import store from './store/store'
 import MuseUI from 'muse-ui'
 import VueAwesomeSwiper from 'vue-awesome-swiper'
+import vueJsonp from "vue-jsonp";
 
 import 'muse-ui/dist/muse-ui.css'
 import 'muse-ui/dist/theme-light.css' // 使用 carbon 主题
@@ -14,6 +15,7 @@ import 'swiper/dist/css/swiper.css'
 Vue.config.productionTip = false
 Vue.use(MuseUI)
 Vue.use(VueAwesomeSwiper)
+Vue.use(vueJsonp)
 
 /* eslint-disable no-new */
 new Vue({

@@ -14,7 +14,7 @@ export default new Router({
       component: Index
     },
     {
-      path:'/player/:songmid/:albummid/:init',
+      path:'/player/:songmid/:albummid/:songid/:init',
       name:'player',
       component:player
     },

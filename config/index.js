@@ -43,7 +43,14 @@ module.exports = {
          pathRewrite: {  
           '^/vkey': ''  
          },
-      }    
+      },
+      '/lyric':{
+        target:'https://api.darlin.me/music/lyric/',
+        changeOrigin:true,
+        pathRewrite: {  
+         '^/lyric': ''  
+        },
+     }    
     },
 
     // Various Dev Server settings

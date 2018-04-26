@@ -9,16 +9,17 @@ export default new Vuex.Store({
     duration:0,//音乐总时长
     currentDuration:0,//当前播放到什么时间
     playState:0,//是否全屏播放
-    indexPage:"1",//当前主页为第几页,
-    songmid:"",//当前播放的音乐id
-    songUrl:"",//当前音乐url
-    albumUrl:"",//专辑图片url
-    songName:"",//音乐名
-    songerName:"",//歌手名
+    indexPage:'1',//当前主页为第几页,
+    songmid:'',//当前播放的音乐id
+    songUrl:'',//当前音乐url
+    albumUrl:'',//专辑图片url
+    songName:'',//音乐名
+    songerName:'',//歌手名
+    songid:'',
     changeState:0//如果为1的话表示为手动改变音乐情况
   },
   mutations: {
-    setSongId (state,payload) {
+    setSongMid (state,payload) {
        state.songmid = payload.songmid;
        state.songUrl = 'http://dl.stream.qqmusic.qq.com/C400'+payload.songmid+'.m4a?guid='+payload.guid+'&vkey='+payload.vkey+'&uin=0&fromtag=38';
       },
@@ -42,6 +43,9 @@ export default new Vuex.Store({
     },
     setChangeState(state,number){
       state.changeState = number;
+    },
+    setSongId(state,sid){
+      state.songId = sid;
     }
   }
 })
