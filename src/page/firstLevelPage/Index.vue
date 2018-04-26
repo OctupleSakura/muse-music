@@ -40,6 +40,7 @@ import songSearch from '../twoLevelPage/songSearch'
 import axios from 'axios'
 import { swiper, swiperSlide } from 'vue-awesome-swiper'
 import 'swiper/dist/css/swiper.css'
+import api from '../../api/api';
 
 export default {
   name: 'Index',
@@ -80,6 +81,10 @@ export default {
         this.activeTab = val
         this.$refs.mySwiper.swiper.slideTo(val)
       }
+  },
+  async activated(){
+    var res = await api.user.sign();
+    console.log(res);
   },
   mounted(){
      let that = this;

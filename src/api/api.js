@@ -23,9 +23,20 @@ const api = {
   },
   user:{
     login:async(username,password)=>{
-      const apiUrl = `http://octuplesakura.cn:1339/user/login?username=${username}&password=${password}`;
+      const int = axios.create({
+        withCredentials: true // 允许携带cookie
+      })
+      const apiUrl = `http://octuplesakura.cn/user/login?username=${username}&password=${password}`;
       let params = {username:username,password:password};
-      const res = await axios.post(apiUrl,params);
+      const res = await int.post(apiUrl,params);
+      return res;
+    },
+    sign:async()=>{
+      const int = axios.create({
+        withCredentials: true // 允许携带cookie
+      })
+      const apiUrl = `http://octuplesakura.cn/user/sign`;
+      const res = await int.post(apiUrl);
       return res;
     }
   }
