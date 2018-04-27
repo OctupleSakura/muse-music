@@ -5,9 +5,11 @@
        <div class="lyric_content" key="lyric" v-show="!nowpage" @click="nowpage=!nowpage">
           <swiper :options="swiperOption" ref="lyricSwiper">
             <swiper-slide>
+              <div class="fill"></div>
               <ul>
-                <li v-for="(item,index) in lyrics" :key="index">{{item.lyric}}</li>
+                <li v-for="(item,index) in lyrics" :key="index" :class="{active:ifNowLyric(index)}">{{item.lyric}}</li>
               </ul>
+              <div class="fill"></div>
             </swiper-slide>
           </swiper>
        </div>    
@@ -25,6 +27,8 @@
        return{
           nowpage:true,
           lyrics:[],
+          nowLyrics:0,
+          top:0,
           swiperOption:{
             direction: 'vertical',
             slidesPerView: 'auto',
@@ -45,6 +49,10 @@
           let handleData = [];
           for(let i=1;i<str.length;i++){
              let separate = str[i].split("]");
+             separate[1] = separate[1].replace(/[\r\n]/g, "");
+             if(separate[1]==""){
+               continue;
+             }
              let obj = {time:separate[0],lyric:separate[1]};
              handleData.push(obj);
           }
@@ -54,27 +62,62 @@
          this.$refs.albumImg.style.background = 'url('+this.$store.state.albumUrl+')';
          const res = await api.music.lyric(this,this.$route.params.songid);
          const newres = this.lyricHandle(res);
-         this.$refs.lyricSwiper.$el.children[0].children[0].addEventListener('scroll',()=>{
-           console.log(1)
-           debugger
-         })
+         this.swiper.$el[0].children[0].style.cssText = "transition-duration: 200ms;";
          this.lyrics = newres;
-         console.log(newres);
+       },
+       TimeLength(Time){//时间计算函数
+         if(Time==1){
+           Time = this.duration;
+         }else{
+           Time = this.currentDuration;
+         }
+          let min = parseInt(Time/60)+"";
+          let sec = parseInt(Time%60)+"";
+          if(min == 0){
+            min = "00";
+          }else if(min < 10){
+             min = "0" + min;
+          }
+          if(sec.length==1){
+             sec = "0" + sec;
+          }
+          return min + ":" + sec;
+        },
+       ifNowLyric(num){
+          return num == this.nowLyrics;
        }
      },
      computed:{
         ...mapState([
           'albumUrl',
-       ])
+          'currentDuration'
+       ]),
+      swiper() {
+        return this.$refs.lyricSwiper.swiper
+      }
      },
      async activated(){
         if(this.$route.params.init==1){
            this.init()
         }
-     }    
+     },
+     watch:{
+       currentDuration(val,newval){
+          if(this.changeState!=1){
+            const length = this.lyrics.length;
+            for(let i=1;i<length;i++){
+               if(this.lyrics[i].time.split('.')[0]==this.TimeLength(this.currentDuration)){
+                  this.nowLyrics = i;
+                  this.swiper.setTranslate(i*-36);
+               }
+            }
+          }
+       }
+     }   
    }
 </script>
 <style lang="less">
+@import '../assets/public';
   .lyric{
     width:100%;
     height:22rem;
@@ -104,10 +147,17 @@
     width:100%;
     height:100%;
     overflow: hidden;
+    .fill{
+      width:100%;
+      height:10rem;
+    }
     ul{
-      color:#fff;
+      color:#ffffff;
       padding:0;
       padding:0 15px;
+      .active{
+        color:@theme-color;
+      }
       li{
         width:100%;
         margin-top:1rem;
@@ -115,6 +165,9 @@
         text-align:center;
       }
     }
+  }
+  .swiper-wrapper{
+    transition-duration:200ms;
   }
   .fade-enter-active, .component-fade-leave-active {
      transition: opacity .3s ease;

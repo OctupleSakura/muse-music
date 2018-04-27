@@ -45,7 +45,7 @@ export default new Vuex.Store({
       state.changeState = number;
     },
     setSongId(state,sid){
-      state.songId = sid;
+      state.songid = sid;
     }
   }
 })

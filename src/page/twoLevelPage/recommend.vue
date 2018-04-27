@@ -59,8 +59,6 @@ export default {
   },
   methods: {},
   async mounted() {
-    //  const apiUrl = "/api?g_tk=5381&uin=0&format=json&inCharset=utf-8&outCharset=utf-8&notice=0&platform=h5&needNewCode=1&_=1521092161716";
-    //  const res = await axios.get(apiUrl);
      const res = await api.music.index();
     let data = res.data.data;
     this.slider = data.slider;
