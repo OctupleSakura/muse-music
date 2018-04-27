@@ -25,7 +25,7 @@ const api = {
     lyric:async(that,id)=>{
       const url = `https://api.darlin.me/music/lyric/${id}`
       const res = await that.$jsonp(url);
-      console.log(Base64.decode(res.lyric));
+      return Base64.decode(res.lyric);
     }
   },
   user:{

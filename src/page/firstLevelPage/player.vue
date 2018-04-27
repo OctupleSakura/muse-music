@@ -12,7 +12,7 @@
            </div>
            </div>
        </div>
-       <div class="albumImg" ref="albumImg"></div>
+       <lyric></lyric>
        <div class="bg" ref="bg"></div>
        <div class="control">
           <div class="pargressContent">
@@ -34,6 +34,7 @@
   import {mapMutations} from "vuex";
   import { mapState } from 'vuex';
   import api from '../../api/api';
+  import lyric from '../../components/lyric';
    export default {
      name:'player',
      data(){
@@ -41,6 +42,9 @@
           progress:0,
           playIcon:"play_circle_outline"
        }
+     },
+     components:{
+        lyric
      },
      methods:{
        ...mapMutations([
@@ -59,9 +63,7 @@
           this.setAlbumUrl(this.$route.params.albummid);
           this.playControl(false);
           this.setSongId(this.$route.params.songid);
-          const res = await api.music.lyric(this,this.$route.params.songid);
           this.$refs.bg.style.background = 'url('+this.$store.state.albumUrl+')';
-          this.$refs.albumImg.style.background = 'url('+this.$store.state.albumUrl+')';
           this.$refs.bg.style.backgroundPosition = 'center top';
           this.$refs.bg.style.backgroundSize = 'cover';
        },
@@ -196,18 +198,6 @@
            color:#dbdbdb;
          }
       }
-    }
-    .albumImg{
-      width:200px;
-      height:200px;
-      position: absolute;
-      background:#fff;
-      left:0;
-      right:0;
-      top:180px;
-      margin:0 auto;
-      z-index:2;
-      border-radius:50%;
     }
     &:after{
       background-color: rgba(0,0,0,0.6);
