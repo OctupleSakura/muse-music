@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import Index from '@/page/firstLevelPage/Index'
 import player from '@/page/firstLevelPage/player'
 import login from '@/page/firstLevelPage/login'
+import songSheet from '@/page/firstLevelPage/songSheet'
 
 Vue.use(Router)
 
@@ -22,6 +23,11 @@ export default new Router({
       path:'/login',
       name:'login',
       component:login
+    },
+    {
+      path:'/songSheet',
+      name:'songSheet',
+      component:songSheet
     }
   ]
 })

@@ -1,7 +1,7 @@
 <template>
   <div id="app">
     <transition name="up" in-out>
-      <keep-alive exclude="login">
+      <keep-alive exclude="login,songSheet">
         <router-view class="child-view"/>
       </keep-alive>
     </transition>

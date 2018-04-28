@@ -21,11 +21,17 @@
             <div class="timeLength time">{{TimeLength(1)}}</div>
           </div>
           <div class="controlContent">
-            <mu-icon value="skip_previous" :size="30" ></mu-icon>
-            <mu-icon :value="playIcon" :size="42" @click="play()" ref="playButton"></mu-icon>
-            <mu-icon value="skip_next" :size="30" ></mu-icon>
+            <mu-icon :value="like" :size="28" @click="favorite()" :color="like=='favorite_border'?'#fff':'#EE4000'"></mu-icon>
+            <div class="playContent">
+              <mu-icon value="skip_previous" :size="30" ></mu-icon>
+              <mu-icon :value="playIcon" :size="42" @click="play()" ref="playButton"></mu-icon>
+              <mu-icon value="skip_next" :size="30" ></mu-icon>
+            </div>
+            <router-link to="/songSheet" tag="div" class="songSheetIcon">
+              <mu-icon value="playlist_add_check" :size="28"/>
+            </router-link>
           </div>
-       </div>
+       </div>     
      </div>
    </transition>
 </template>
@@ -40,7 +46,9 @@
      data(){
        return{
           progress:0,
-          playIcon:"play_circle_outline"
+          playIcon:"play_circle_outline",
+          like:"favorite_border",
+          user:{}
        }
      },
      components:{
@@ -55,19 +63,49 @@
          'setChangeState',
          'setSongMid'
        ]),
-       async init(){
-          const guid = this.getGuid()
-          const music = await api.music.vkey(this.$route.params.songmid,guid);
+       async init(){//播放器初始化函数,如果route init为0的话则不进行初始化
+          const guid = this.getGuid()//获取guid
+          const music = await api.music.vkey(this.$route.params.songmid,guid);//通过guid获取vkey
+          const sign = await api.user.sign();//验证用户是否为登录状态
+          this.user = sign;
           const vkey = music.data.items[0].vkey;
-          this.setSongMid({songmid:this.$route.params.songmid,guid:guid,vkey:vkey});
-          this.setAlbumUrl(this.$route.params.albummid);
-          this.playControl(false);
-          this.setSongId(this.$route.params.songid);
-          this.$refs.bg.style.background = 'url('+this.$store.state.albumUrl+')';
+          this.setSongId(this.$route.params.songid);//设置songid
+          this.setSongMid({songmid:this.$route.params.songmid,guid:guid,vkey:vkey});//设置vuex中的mid
+          this.setAlbumUrl(this.$route.params.albummid);//设置专辑id
+          this.playControl(false);//初始化播放状态为停止
+          this.selectFavorite()//验证用户是否喜欢了当前这首歌
+          this.$refs.bg.style.background = 'url('+this.$store.state.albumUrl+')';//设置播放器上的专辑图片
           this.$refs.bg.style.backgroundPosition = 'center top';
           this.$refs.bg.style.backgroundSize = 'cover';
        },
-       getGuid(){
+       async selectFavorite(){//查找用户是否喜欢了当前的音乐
+          const params = {userid:this.user.userId,songid:this.songid};
+          const select = await api.songSheet.userSong(params);
+          if(select>=1){
+            this.like="favorite";
+          }else{
+            this.like="favorite_border";
+          }
+       },
+       async favorite(){//添加或取消喜欢的音乐
+         if(this.like=="favorite_border"){
+            this.like="favorite";
+            let params = {songid:this.songid,
+                          songmid:this.$route.params.songmid,
+                          songer:this.songerName,
+                          userid:this.user.userId,
+                          albummid:this.$route.params.albummid,
+                          songname:this.songName}
+            const insert = await api.songSheet.insertSong(params);
+            this.message = '已添加到喜欢的音乐';
+         }else{
+            this.like="favorite_border";
+            let params = {songid:this.songid,userid:this.user.userId}
+            const insert = await api.songSheet.cancelSong(params);
+            this.message = '已取消';
+         }
+       },
+       getGuid(){//生成guid 如果cookie中有的话则直接返回cookie中的guid
           var t = (new Date).getUTCMilliseconds();
           if(document.cookie.indexOf("pgv_pvid")!=-1){
             return this.getCookie("pgv_pvid");
@@ -76,7 +114,7 @@
           document.cookie ="pgv_pvid=" + _guid + "; Expires=Sun, 18 Jan 2038 00:00:00 GMT;PATH=/;";
           return _guid
        },
-       getCookie(c_name){
+       getCookie(c_name){//获取cookie的方法
            if (document.cookie.length>0)
              {
              let c_start=document.cookie.indexOf(c_name + "=")
@@ -90,7 +128,7 @@
              }
            return ""
        },
-       play(){
+       play(){//更改播放状态
           if(this.currentPlay){
             this.playControl(false);
           }else{
@@ -129,7 +167,9 @@
           'currentDuration',
           'changeState',
           'duration',
-          'songid'
+          'songid',
+          'songerName',
+          'songName'
        ])
      },
      watch:{
@@ -146,7 +186,6 @@
               this.progress = (this.currentDuration / this.duration)*100;
          }
        },
-
      },
      async activated(){
         if(this.$route.params.init==1){
@@ -242,19 +281,31 @@
         width:100%;
         height:calc(100% - 40px);  
         padding-top:20px;   
+        display:flex;
+        justify-content:space-around;
+        align-items:center;
         i{
           color:#fff;
           display: inline-block;
-          vertical-align: top;
+          transition:0.2s all;
         }
-        i:nth-child(odd){
-          margin-top:6px;
+        .songSheetIcon{
+           display: flex;
+           align-items:center;
         }
-        i:nth-child(1){
-          margin-right:@space;
-        }
-        i:nth-child(3){
-          margin-left:@space;
+        .playContent{
+           display:flex;
+           justify-content:space-around;
+           align-items:center;
+          i:nth-child(odd){
+            margin-top:6px;
+          }
+          i:nth-child(1){
+            margin-right:@space;
+          }
+          i:nth-child(3){
+            margin-left:@space;
+          }
         }
       }
     }

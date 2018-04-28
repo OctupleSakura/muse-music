@@ -33,13 +33,14 @@
 </template>
 
 <script>
-import smallPlayer from '../../components/smallPlayer'
-import recommend from '../twoLevelPage/recommend'
-import myMessage from '../twoLevelPage/myMessage'
-import songSearch from '../twoLevelPage/songSearch'
-import axios from 'axios'
-import { swiper, swiperSlide } from 'vue-awesome-swiper'
-import 'swiper/dist/css/swiper.css'
+import smallPlayer from '../../components/smallPlayer';
+import recommend from '../twoLevelPage/recommend';
+import myMessage from '../twoLevelPage/myMessage';
+import songSearch from '../twoLevelPage/songSearch';
+import axios from 'axios';
+import { swiper, swiperSlide } from 'vue-awesome-swiper';
+import 'swiper/dist/css/swiper.css';
+import {mapMutations} from 'vuex';
 import api from '../../api/api';
 
 export default {
@@ -77,14 +78,17 @@ export default {
     }
   },
   methods:{
+      ...mapMutations([
+        'setUserId'
+      ]),
       handleTabChange (val) {
         this.activeTab = val
         this.$refs.mySwiper.swiper.slideTo(val)
       }
   },
   async activated(){
-    var res = await api.user.sign();
-    console.log(res);
+    const res = await api.user.sign();
+    this.setUserId(res.userId)
   },
   mounted(){
      let that = this;

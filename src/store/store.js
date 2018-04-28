@@ -9,14 +9,16 @@ export default new Vuex.Store({
     duration:0,//音乐总时长
     currentDuration:0,//当前播放到什么时间
     playState:0,//是否全屏播放
-    indexPage:'1',//当前主页为第几页,
+    indexPage:'1',//当前主页为第几页
     songmid:'',//当前播放的音乐id
     songUrl:'',//当前音乐url
     albumUrl:'',//专辑图片url
     songName:'',//音乐名
     songerName:'',//歌手名
-    songid:'',
-    changeState:0//如果为1的话表示为手动改变音乐情况
+    songid:'',//音乐id
+    albumid:'',//专辑id
+    changeState:0,//如果为1的话表示为手动改变音乐情况
+    userid:''
   },
   mutations: {
     setSongMid (state,payload) {
@@ -25,6 +27,7 @@ export default new Vuex.Store({
       },
     setAlbumUrl(state,albumId){
       state.albumUrl = 'https://y.gtimg.cn/music/photo_new/T002R150x150M000'+albumId+'.jpg?max_age=2592000';
+      state.albumid = albumId;
     },
     setSongName(state,songName){
       state.songName = songName;
@@ -46,6 +49,9 @@ export default new Vuex.Store({
     },
     setSongId(state,sid){
       state.songid = sid;
+    },
+    setUserId(state,uid){
+      state.userid = uid;
     }
   }
 })

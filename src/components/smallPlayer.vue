@@ -1,7 +1,7 @@
 <template>
     <div class="smallPlayer"  label="Primary" >
       <div>
-         <router-link :to="{name:'player',params:{songmid:this.songmid,albummid:this.albumUrl,songid:this.songid,init:0}}" tag="img" :src="albumUrl"></router-link>
+         <router-link :to="{name:'player',params:{songmid:this.songmid,albummid:this.albumid,songid:this.songid,init:0}}" tag="img" :src="albumUrl"></router-link>
          <ul class="songInformation">
            <li>{{songName}}</li>
            <li>{{songerName}}</li>
@@ -34,6 +34,7 @@
     },
     computed:{
       ...mapState([
+        'albumid',
         'albumUrl',
         'songName',
         'songerName',

@@ -64,6 +64,7 @@
          const newres = this.lyricHandle(res);
          this.swiper.$el[0].children[0].style.cssText = "transition-duration: 200ms;";
          this.lyrics = newres;
+         this.nowLyrics=0;
        },
        TimeLength(Time){//时间计算函数
          if(Time==1){

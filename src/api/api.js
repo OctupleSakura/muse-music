@@ -33,7 +33,7 @@ const api = {
       const int = axios.create({
         withCredentials: true // 允许携带cookie
       })
-      const apiUrl = `http://node.cn:1339/user/login?username=${username}&password=${password}`;
+      const apiUrl = `http://octuplesakura.cn:1339/user/login`;
       let params = {username:username,password:password};
       const res = await int.post(apiUrl,params);
       return res;
@@ -42,10 +42,48 @@ const api = {
       const int = axios.create({
         withCredentials: true // 允许携带cookie
       })
-      const apiUrl = `http://node.cn:1339/user/sign`;
+      const apiUrl = `http://octuplesakura.cn:1339/user/sign`;
       const res = await int.post(apiUrl);
-      return res;
+      return res.data;
     }
+  },
+  songSheet:{
+    //查找用户歌单
+    userSongSheet:async(params) => {
+      let userid = params.userid;
+      let operation = params.operation;
+      const apiUrl = `http://octuplesakura.cn:1338/song/likeData?userid=${userid}&operation=${operation}`;
+      const res = await axios.get(apiUrl,params);
+      return res.data;
+    },
+     //查找用户是否喜欢了某一首歌
+     userSong:async(params) => {
+       let userid = params.userid;
+       let songid = params.songid;
+      const apiUrl = `http://octuplesakura.cn:1338/song/likeData?userid=${userid}&songid=${songid}&operation=${1}`;
+      const res = await axios.get(apiUrl,params);
+      return res.data;
+    },
+    //添加喜欢的音乐
+    insertSong:async(params)=>{
+      const apiUrl = `http://octuplesakura.cn:1338/song/like`;
+      params["operation"] = 0;
+      const int = axios.create({
+        withCredentials: true // 允许携带cookie
+      })
+      const res = await int.post(apiUrl,params);
+      return res;
+    },
+    //取消添加
+    cancelSong:async(params)=>{
+      const apiUrl = `http://octuplesakura.cn:1338/song/like`;
+      params["operation"] = 1;
+      const int = axios.create({
+        withCredentials: true // 允许携带cookie
+      })
+      const res = await int.post(apiUrl,params);
+      return res;
+    },
   }
 }
 export default api;
