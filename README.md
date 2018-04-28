@@ -42,14 +42,14 @@
    4. 搜索模块(搜索歌曲)  
    （还有node部分接口编写
 ## 技术栈 :star:
-   **前端**:
-   前端ui:muse-ui(material风格的vue-ui库)  
-   前端框架:vue  
-   前端插件:vue-router,vuex,axios,swiper(滑动插件),vue-jsonp....  
-   预处理器:less  
-   **后端**:  
-   后端框架:koa  
-   后端插件:koa-route,koa-session,koa-cors,koa-body,mysql  
+   **前端**    
+        ui:muse-ui(material风格的vue-ui库)  
+        框架:vue  
+        插件:vue-router,vuex,axios,swiper(滑动插件),vue-jsonp....  
+        预处理器:less  
+   **后端**   
+        框架:koa  
+        插件:koa-route,koa-session,koa-cors,koa-body,mysql  
 ## Build Setup
 
 ``` bash
