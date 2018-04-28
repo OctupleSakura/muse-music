@@ -42,8 +42,8 @@
    4. 搜索模块(搜索歌曲)  
    （还有node部分接口编写
 ## 技术栈 :star:
-   &#160;**前端**    
-   &#160;&#160;:muse-ui(material风格的vue-ui库)  
+   &#160;**前端**:    
+   &#160;&#160;muse-ui(material风格的vue-ui库)  
    &#160;&#160;框架:vue  
    &#160;&#160;插件:vue-router,vuex,axios,swiper(滑动插件),vue-jsonp....  
    &#160;&#160;预处理器:less  
