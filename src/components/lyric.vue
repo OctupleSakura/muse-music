@@ -109,7 +109,7 @@
             for(let i=1;i<length;i++){
                if(this.lyrics[i].time.split('.')[0]==this.TimeLength(this.currentDuration)){
                   this.nowLyrics = i;
-                  this.swiper.setTranslate(i*-36);
+                  this.swiper.setTranslate(i*-35);
                }
             }
           }

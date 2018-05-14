@@ -18,7 +18,8 @@ export default new Vuex.Store({
     songid:'',//音乐id
     albumid:'',//专辑id
     changeState:0,//如果为1的话表示为手动改变音乐情况
-    userid:''
+    userid:'',
+    username:''
   },
   mutations: {
     setSongMid (state,payload) {
@@ -52,6 +53,9 @@ export default new Vuex.Store({
     },
     setUserId(state,uid){
       state.userid = uid;
+    },
+    setUserName(state,un){
+      state.username = un;
     }
   }
 })

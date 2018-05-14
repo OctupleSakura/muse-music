@@ -1,7 +1,7 @@
 <template>
     <div class="smallPlayer"  label="Primary" >
       <div>
-         <router-link :to="{name:'player',params:{songmid:this.songmid,albummid:this.albumid,songid:this.songid,init:0}}" tag="img" :src="albumUrl"></router-link>
+         <router-link :to="{name:'player',params:{songmid:this.songmid,albummid:this.albumid,songid:this.songid,init:0}}" tag="img" :src='albumUrl==""?player_not_music:albumUrl'></router-link>
          <ul class="songInformation">
            <li>{{songName}}</li>
            <li>{{songerName}}</li>
@@ -9,7 +9,7 @@
       </div>
       <div>
         <mu-icon :value="currentPlay?'pause':'play_arrow'" :size="32" @click="play"/>
-        <router-link tag="div" to="/songSheet">
+        <router-link tag="div" to="/songSheet" style="height:32px;">
             <mu-icon value="playlist_add_check" :size="32"/>
         </router-link>
       </div>
@@ -22,7 +22,7 @@
     name:'smallPlayer',
     data(){
       return{
-
+          player_not_music:require('../assets/not_music.png')
       }
     },
     methods:{
@@ -65,8 +65,6 @@
      img{
        width:33px;
        height:33px;
-       background:#888888;
-       border:1px solid #eeeeee;
      }
      >div{
        display: flex;

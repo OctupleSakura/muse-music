@@ -45,6 +45,14 @@ const api = {
       const apiUrl = `http://octuplesakura.cn:1339/user/sign`;
       const res = await int.post(apiUrl);
       return res.data;
+    },
+    exit:async()=>{
+      const int = axios.create({
+        withCredentials: true // 允许携带cookie
+      })
+      const apiUrl = `http://octuplesakura.cn:1339/user/exit`;
+      const res = await int.post(apiUrl);
+      return res.data;
     }
   },
   songSheet:{

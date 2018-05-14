@@ -24,7 +24,7 @@
               </recommend> 
             </swiper-slide> 
             <swiper-slide>      
-              <my-message></my-message>
+              <my-message :isLogin="isLogin" @changeState="changeLoginState"></my-message>
             </swiper-slide>     
          </swiper>
       </div>
@@ -57,6 +57,7 @@ export default {
     return {
       activeTab:"1",
       currentScreenWidth:document.body.clientWidth,
+      isLogin:false,
       swiperOption:{
          initialSlide:1,
          spaceBetween: 50,
@@ -79,16 +80,23 @@ export default {
   },
   methods:{
       ...mapMutations([
-        'setUserId'
+        'setUserId',
+        'setUserName'
       ]),
       handleTabChange (val) {
         this.activeTab = val
         this.$refs.mySwiper.swiper.slideTo(val)
+      },
+      changeLoginState (state){
+        this.isLogin = state;
       }
   },
   async activated(){
     const res = await api.user.sign();
-    this.setUserId(res.userId)
+    this.isLogin = res != 'no login' ? true : false;
+    console.log(res);
+    this.setUserId(res.userId);
+    this.setUserName(res.userName);
   },
   mounted(){
      let that = this;
