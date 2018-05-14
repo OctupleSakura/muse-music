@@ -53,7 +53,9 @@
         'setSongerName'
       ]),
        goback(){
-          this.$router.push({name:'player',params:{songmid:this.songmid,albummid:this.albumid,songid:this.songid,init:0}});
+           window.history.length > 1
+           ? this.$router.go(-1)
+           : this.$router.push('/')
        },
        showSnackbar () {//显示提示
          this.snackbar = true;

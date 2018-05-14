@@ -9,7 +9,9 @@
       </div>
       <div>
         <mu-icon :value="currentPlay?'pause':'play_arrow'" :size="32" @click="play"/>
-        <mu-icon value="playlist_add_check" :size="32"/>
+        <router-link tag="div" to="/songSheet">
+            <mu-icon value="playlist_add_check" :size="32"/>
+        </router-link>
       </div>
     </div>
 </template>
