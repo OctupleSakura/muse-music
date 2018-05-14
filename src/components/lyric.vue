@@ -36,6 +36,12 @@
             mousewheel: true,
             freeModeMomentumRatio:1,
             freeModeMinimumVelocity : 0.5,
+            on:{
+              //touchend给滚动条添加动画时间
+              touchEnd: function(event){
+                 this.$el[0].children[0].style.cssText += "transition-duration: 200ms;";
+              },
+            }
           },
        }
      },
@@ -109,7 +115,7 @@
             for(let i=1;i<length;i++){
                if(this.lyrics[i].time.split('.')[0]==this.TimeLength(this.currentDuration)){
                   this.nowLyrics = i;
-                  this.swiper.setTranslate(i*-35);
+                  this.swiper.setTranslate(i*-37);
                }
             }
           }

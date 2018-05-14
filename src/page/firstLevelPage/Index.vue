@@ -29,6 +29,7 @@
          </swiper>
       </div>
       <small-player></small-player>
+      <mu-snackbar v-if="snackbar" :message="message"  @actionClick="hideSnackbar" @close="hideSnackbar"/>
    </div>
 </template>
 
@@ -58,6 +59,8 @@ export default {
       activeTab:"1",
       currentScreenWidth:document.body.clientWidth,
       isLogin:false,
+      snackbar: false,
+      message: '退出成功',
       swiperOption:{
          initialSlide:1,
          spaceBetween: 50,
@@ -89,7 +92,23 @@ export default {
       },
       changeLoginState (state){
         this.isLogin = state;
-      }
+        if(!state){
+          this.message = '退出成功';
+          this.showSnackbar();
+        }else{
+           this.message = '未知错误';
+           this.showSnackbar();
+        }
+      },
+       showSnackbar () {
+         this.snackbar = true;
+         if (this.snackTimer) clearTimeout(this.snackTimer);
+         this.snackTimer = setTimeout(() => { this.snackbar = false }, 2000);
+       },
+       hideSnackbar () {
+         this.snackbar = false;
+         if (this.snackTimer) clearTimeout(this.snackTimer);
+       },
   },
   async activated(){
     const res = await api.user.sign();

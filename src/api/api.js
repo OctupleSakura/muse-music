@@ -46,6 +46,15 @@ const api = {
       const res = await int.post(apiUrl);
       return res.data;
     },
+    register:async(username,password)=>{
+      const int = axios.create({
+        withCredentials: true // 允许携带cookie
+      })
+      const apiUrl = `http://octuplesakura.cn:1339/user/register`;
+      let params = {username:username,password:password};
+      const res = await int.post(apiUrl,params);
+      return res.data;
+    },
     exit:async()=>{
       const int = axios.create({
         withCredentials: true // 允许携带cookie
