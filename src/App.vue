@@ -5,7 +5,7 @@
         <router-view class="child-view"/>
       </keep-alive>
     </transition>
-    <audio :src="songUrl" ref="audio"></audio>
+    <audio :src="songUrl" ref="audio" loop="loop"></audio>
   </div>
 </template>
 
@@ -27,13 +27,12 @@ export default {
     ]),
     currentTime(){
       //回调事件  用于在vuex中更新当前音乐时间
-      if(this.$refs.audio.currentTime>=this.$refs.audio.duration){
-         this.playControl(false);
-         return;
-      }
       if(this.$store.state.changeState!=1){
         this.setCurrentDuration(this.$refs.audio.currentTime);  
       }
+    },
+    playState(){
+      return this.$refs.audio.paused;
     }
   },
   computed:{
