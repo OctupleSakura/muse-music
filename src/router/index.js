@@ -12,12 +12,18 @@ export default new Router({
     {
       path: '/',
       name: 'index',
-      component: Index
+      component: Index,
+      meta: {
+        keepAlive: true
+      },
     },
     {
       path:'/player/:songmid/:albummid/:songid/:init',
       name:'player',
-      component:player
+      component:player,
+      meta: {
+        keepAlive: true
+      },
     },
     {
       path:'/login',
@@ -25,9 +31,12 @@ export default new Router({
       component:login
     },
     {
-      path:'/songSheet',
+      path:'/songSheet/:from',
       name:'songSheet',
-      component:songSheet
+      component:songSheet,
+      meta: {
+        keepAlive: true
+      },
     }
   ]
 })

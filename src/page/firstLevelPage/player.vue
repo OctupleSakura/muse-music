@@ -27,7 +27,7 @@
               <mu-icon :value="playIcon" :size="42" @click="play()" ref="playButton"></mu-icon>
               <mu-icon value="skip_next" :size="30" ></mu-icon>
             </div>
-            <router-link to="/songSheet" tag="div" class="songSheetIcon">
+            <router-link :to="{name:'songSheet',params:{from:'palyer'}}" tag="div" class="songSheetIcon">
               <mu-icon value="playlist_add_check" :size="28"/>
             </router-link>
           </div>
