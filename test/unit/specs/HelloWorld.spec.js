@@ -1,11 +1,11 @@
 import Vue from 'vue'
-import HelloWorld from '@/components/HelloWorld'
+import slider from '@/components/slider'
 
-describe('HelloWorld.vue', () => {
+describe('slider.vue', () => {
+  // 检查msg
   it('should render correct contents', () => {
-    const Constructor = Vue.extend(HelloWorld)
-    const vm = new Constructor().$mount()
-    expect(vm.$el.querySelector('.hello h1').textContent)
-      .toEqual('Welcome to Your Vue.js App')
+    // 组件实例
+    const Constructor = Vue.extend(slider);
+    expect(slider.currentPageIndex).to.eql(0);
   })
 })
