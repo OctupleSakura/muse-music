@@ -1,10 +1,6 @@
-<<<<<<< HEAD
-### 杂谈 :musical_note:
-=======
 ## Muse-Music
 [![Build Status](https://travis-ci.org/OctupleSakura/Muse-Music.svg?branch=master)](https://travis-ci.org/OctupleSakura/Muse-Music)
 ## 杂谈 :musical_note:
->>>>>>> 69f00d2a3921849fa7fca278b3af02b5a35cd064
    这是一个心血来潮之作  
    也是看着网上的大佬们的作品,因此自己也想做一个,嘛其实慕课网上也有播放器的一个课程(但是我穷**买不起**！Σ( ° △ °|||)︴  
    所以...只好自己琢磨了  
