@@ -81,6 +81,7 @@
 </template>
 <script>
  import api from '../../api/api';
+ import {mapMutations} from 'vuex';
  export default {
    name:'login',
    data(){
@@ -95,13 +96,20 @@
      }
    },
    methods:{
+      ...mapMutations([
+        'setUserId',
+        'setUserName'
+      ]),
      async login(){
         this.disabled = true;
         const res = await api.user.login(this.username,this.password);
-        if(res.data==1){
+        if(res.data.userId&&res.data.userName){
           this.message='登录成功';
           this.showSnackbar();     
           if (this.windowtime) clearTimeout(this.windowtime);
+          debugger
+          this.setUserId(res.data.userId);
+          this.setUserName(res.data.userName);
           this.windowtime = setTimeout(() => {this.$router.push({path:'/'})}, 1000);           
         }
         else{
