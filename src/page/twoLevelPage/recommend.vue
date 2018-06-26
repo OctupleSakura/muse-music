@@ -59,7 +59,7 @@ export default {
   },
   methods: {},
   async mounted() {
-     const res = await api.music.index();
+    const res = await api.music.index();
     let data = res.data.data;
     this.slider = data.slider;
     this.songList = data.songList;
