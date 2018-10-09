@@ -10,13 +10,15 @@
     "unit": "jest --config test/unit/jest.conf.js --coverage",
     "e2e": "node test/e2e/runner.js",
     "test": "npm run unit && npm run e2e",
-    "build": "node build/build.js"
+    "build": "node build/build.js",
+    "format": "prettier --single-quote --trailing-comma es5 --write \"src/**/*.js\""
   },
   "dependencies": {
     "axios": "^0.18.0",
     "js-base64": "^2.4.3",
     "less": "^3.0.1",
     "muse-ui": "^2.1.0",
+    "prettier": "^1.14.3",
     "qs": "^6.5.1",
     "vue": "^2.5.2",
     "vue-awesome-swiper": "^3.1.3",
