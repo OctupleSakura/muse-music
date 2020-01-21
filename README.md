@@ -10,11 +10,9 @@
 
 ## 杂谈 :musical_note:
    这是一个心血来潮之作  
-   也是看着网上的大佬们的作品,因此自己也想做一个  
-   其实慕课网上也有播放器的一个课程(但是我穷**买不起**！Σ( ° △ °|||)︴  
-   至于好不好看的话,就另说了hhh,嘛因为赶时间,所以功能方面有部分内容还没有优化好QAQ :dizzy_face:  
-   基本的功能都已经制作完成,可能还有bug但是有兴趣的旁友可以试试啦  
-   部分技术实现的话都放到了我的**issues**里面了,包括资源获取(QQ音乐)和踩坑这些  
+   也是看着网上的大佬们的作品,因此想自己琢磨一个   
+   之前赶时间,所以功能方面有部分内容还没有优化好QAQ :dizzy_face:  
+   部分技术实现都放到了我的**issues**里面了,包括资源获取(QQ音乐)和踩坑这些  
 
 ### 项目结构 :open_file_folder:
    ```
@@ -58,29 +56,3 @@
 ![5](https://github.com/OctupleSakura/showImg/blob/master/music/5.png?raw=true)
 ![6](https://github.com/OctupleSakura/showImg/blob/master/music/6.png?raw=true)
 
-### Build Setup
-
-``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-
-# run unit tests
-npm run unit
-
-# run e2e tests
-npm run e2e
-
-# run all tests
-npm test
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
